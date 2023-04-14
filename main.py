@@ -13,4 +13,5 @@ if __name__ == '__main__':
     #sort count based on value
     count = dict(sorted(count.items(), key= lambda y: y[1],reverse=True)) 
     
+    print(count)
 
