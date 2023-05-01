@@ -1,8 +1,11 @@
-import code_steps.conversion.json_to_csv as conv
+import code_steps.funcs.get_keywords as kw
 import pandas
 
 if __name__ == '__main__':
-    keywords = conv.keywords_complete
+
+    # get all keywords of test data set and order them
+
+    keywords = kw.get_keywords('data/testdatensatz')
 
     count: dict = {}
 
@@ -13,5 +16,8 @@ if __name__ == '__main__':
     #sort count based on value
     count = dict(sorted(count.items(), key= lambda y: y[1],reverse=True)) 
     
-    print(count)
+    #remove all keywords with count less than 3
 
+    count = {key: val for key, val in count.items() if val > 50}
+
+    print(count)
