@@ -1,8 +1,9 @@
 import code_steps.funcs.get_keywords as kw
-import pandas
+import os
+import json
 
 if __name__ == '__main__':
-
+    """
     # get all keywords of test data set and order them
 
     keywords = kw.get_keywords('data/testdatensatz')
@@ -21,3 +22,17 @@ if __name__ == '__main__':
     count = {key: val for key, val in count.items() if val > 50}
 
     print(count)
+    """
+    count = 0
+    # keyword count per unique day
+    for item in os.listdir('data/gcp'):
+        with open(f'data/gcp/{item}') as file:
+            data = json.load(file)
+        
+        for article in data['response']['results']:
+            count += 1
+        
+    print(count)
+        
+            
+
