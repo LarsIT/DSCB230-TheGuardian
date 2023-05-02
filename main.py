@@ -2,9 +2,11 @@ import code_steps.funcs.get_keywords as kw
 import code_steps.analysis.article_per_day as article_count
 import plotly.express as px
 
+import os
+import json
 
 if __name__ == '__main__':
-
+    """
     # get all keywords of test data set and order them
 
     path = 'data/testdatensatz'
@@ -39,3 +41,18 @@ if __name__ == '__main__':
     # dict in form {date1: [keyword1, keyword2, ..., keywordN], date2: [...], ..., dateN:[...]}
 
     
+    print(count)
+    """
+    count = 0
+    # keyword count per unique day
+    for item in os.listdir('data/gcp'):
+        with open(f'data/gcp/{item}') as file:
+            data = json.load(file)
+        
+        for article in data['response']['results']:
+            count += 1
+        
+    print(count)
+        
+            
+
