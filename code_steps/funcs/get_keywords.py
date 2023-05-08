@@ -1,7 +1,7 @@
 import json
 import os
 
-def get_keywords(dir_path, flag):
+def get_keywords(dir_path):
     '''
     #### creates list of keywords of an article
     '''

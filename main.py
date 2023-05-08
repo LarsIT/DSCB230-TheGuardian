@@ -6,10 +6,9 @@ import os
 import json
 
 if __name__ == '__main__':
-    """
+    
     # get all keywords of test data set and order them
-
-    path = 'data/testdatensatz'
+    path = 'data/gcp'
     keywords = kw.get_keywords(path)
 
     count: dict = {}
@@ -22,8 +21,8 @@ if __name__ == '__main__':
     # sort count based on value
     count = dict(sorted(count.items(), key= lambda y: y[1],reverse=True)) 
     
-    # remove all keywords with count less than 50
-    count = {key: val for key, val in count.items() if val > 50}
+    # remove all keywords with count less than 200
+    count = {key: val for key, val in count.items() if val > 200}
 
     #make 2 lists, one with keywords, one with count values
     keywords = [x for x in count]
@@ -37,14 +36,15 @@ if __name__ == '__main__':
     print(f'Durchschnittliche Anzahl von Artikeln pro Tag: {article_count.avg_article_per_day(path)}')
 
 
-    # keywords pro tag
+    print(count)
+
+    # keywords per tag
     # dict in form {date1: [keyword1, keyword2, ..., keywordN], date2: [...], ..., dateN:[...]}
 
     
-    print(count)
-    """
     count = 0
-    # keyword count per unique day
+    
+    # how many articles are we looking at?
     for item in os.listdir('data/gcp'):
         with open(f'data/gcp/{item}') as file:
             data = json.load(file)
