@@ -32,39 +32,25 @@ def get_keywords(dir_path):
         
     return keywords_complete
 
-# review tomorrow, probably can reuse most of the get_keywords function or add the per_day into a flag or sth.
-def get_keywords_per_day(dir_path):
-    '''
-    #### creates a dict with keywords on a date
-    in form: {date1: [keyword1, keyword2, ..., keywordN], date2: [...], ..., dateN:[...]}
-    '''
-    # get list of directory files
-    directory = os.listdir(dir_path)
-    keyword_per_day = {}
 
-    for file in directory:
+def get_keywords_in_loop(articles: list):
 
-        with open(dir_path + '/' + file) as file:
-            data = json.load(file)
+    keywords_complete: list
 
-        results = data['response']['results']
-        date = results['webPublicationDate']
-
-        for index,item in enumerate(results):
+    for index,item in enumerate(articles):
             
             temp: list = []
-            working_data = results[index]
+            working_data = articles[index]
             tags = working_data['tags']
             
 
             for tag in tags:
                 if tag['type'] == 'keyword':
                     temp.append(tag['webTitle'])
-                
             
-
-
-
+            keywords_complete.append(temp)
+        
+    return keywords_complete
 
 
 
