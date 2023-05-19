@@ -71,38 +71,61 @@ if __name__ == '__main__':
             production_office: str = article['fields']['productionOffice']
 
             tags = article['tags']
+            
 
             # match produciton office(PO)
             # get all keywords of articles and add them to a PO-specific list
             match production_office:
+                
 
                 case 'UK':
                     # add uk keywords
+                    # an article can have the same keyword multiople times????
+                    temp: str = ''
+                    
                     for tag in tags:
-                        if tag['type'] == 'keyword':
-                            uk_keywords.append(tag['webTitle'])
+                        temp: str = ''
+                        keyword_title = tag['webTitle']
 
+                        # since an article can have the same keyword multiple times the count may become inflated
+                        # we use temp to save the last keyword tag in order to avoid adding the same keywords multiple times
+                        if tag['type'] == 'keyword' and (temp == False or tag != temp):
+                            uk_keywords.append(tag['webTitle'])
+                            temp = tag['webTitle']                 
+                    
                     # increment article count
                     uk_article_count += 1
-
+                    
                 case 'AUS':
                     # add aus keywords
+                    temp: str = ''
+                    
                     for tag in tags:
-                        if tag['type'] == 'keyword':
+                        
+                        keyword_title = tag['webTitle']
+
+                        if tag['type'] == 'keyword' and (temp == False or tag != temp):
                             aus_keywords.append(tag['webTitle'])
+                            temp = tag['webTitle']
 
                     # increment article count
                     aus_article_count += 1
-
+                    
                 case 'US':
                     # add us keywords
+                    temp: str = ''
+
                     for tag in tags:
-                        if tag['type'] == 'keyword':
+
+                        keyword_title = tag['webTitle']
+
+                        if tag['type'] == 'keyword' and (temp == False or tag != temp):
                             us_keywords.append(tag['webTitle'])
+                            temp = tag['webTitle']
 
                     # increment article count
                     us_article_count += 1
-
+                    
                 case _:
                     pass
 

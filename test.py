@@ -1,19 +1,26 @@
-import json
-
-with open('data/gcp/20230330_page1_65e874c2-564a-45be-930c-d0c84f4b3734.json') as file:
-
-    data = json.load(file)
-
-results = data['response']['results']
-
-# article count
-for index ,item in enumerate(results):
-    continue
-else:
-    print(index+1)
+# Import the library
+from plotapi import Chord
 
 
-test = {'2':[15]}
+# Basic cord diagram
+# TODO THIS WON'T WORK BECAUSE INPUT TYPE ISNT RECOGNIZE
+# Chord(data, names).to_html("../../static/interactiveCharts/chord-diagram-chord-library.html")
 
-test['2'].append(55)
-print(test)
+# TO UNDERSTAND THE MATRIX
+# each list is correspondent to one of the names
+# each element of each list is a counter of the frequency those 2 names (name of list and name of item, being correspondent to same index of names list)
+# thats why on the diagonal it is always a zero, since an article cant have the same keyword twice
+matrix = [
+    [0, 20, 6, 4, 7, 4], #ACTION
+    [5, 0, 5, 4, 6, 5], #ADVENTURE
+    [6, 5, 0, 4, 5, 5], #COMEDY
+    [4, 4, 60, 0, 5, 5], #DRAMA
+    [7, 6, 5, 5, 0, 4], #FANTASY
+    [4, 5, 5, 5, 4, 0], #THRILLER
+]
+
+
+names = ["Action", "Adventure", "Comedy", "Drama", "Fantasy", "Thriller"]
+
+Chord(matrix, names).to_html()
+
