@@ -1,12 +1,7 @@
 import code_steps.funcs.get_keywords as kw
-import code_steps.analysis.article_per_day as analysis
-import plotly.express as px
 from plotapi import Chord
-
-import os
-import json
-
 import pandas as pd
+import json
 
 def create_co_occurrence_matrix(articles:list):
     '''
@@ -22,8 +17,13 @@ def create_co_occurrence_matrix(articles:list):
     Returns: A Co-Occurrence
     
     '''
+    # create a threshhold for relevant keywords, since RAM go brrrrr
+    with open('kw_count.json','r') as infile:
+        threshhold = json.load(infile)
+    
+
     # Create a sorted list of distinct keywords
-    keywords = sorted(list(set(keyword for article in articles for keyword in article)))
+    keywords = sorted(list(set(keyword for article in articles for keyword in article if keyword in threshhold)))
     
     # Create an empty DataFrame to store the co-occurrence counts
     co_occurrence_matrix = pd.DataFrame(0, index=keywords, columns=keywords)
@@ -43,14 +43,15 @@ def create_co_occurrence_matrix(articles:list):
                     continue
                 
                 # Increment the co-occurrence count of the keywords
-                co_occurrence_matrix.loc[keyword_1, keyword_2] += 1
+                if keyword_1 in threshhold and keyword_2 in threshhold:
+                    co_occurrence_matrix.loc[keyword_1, keyword_2] += 1
     
     return co_occurrence_matrix
 
 
 if __name__ == '__main__':
     
-    path: str = 'data/gcp'
+    path: str = 'data/testdatensatz'
     # create list of distinct keywords
     keywords_complete: list = []
 
@@ -63,17 +64,20 @@ if __name__ == '__main__':
 
     # create new matrix to change Dtypes of all sublists and items of sublists
     for row in matrix:
+        transformed_row = []
+
         for item in row:
             transformed_row.append(int(item))
         transformed_matrix.append(list(transformed_row))
 
-    keywords = sorted(list(set(keyword for article in keywords_complete for keyword in article)))
+    # keywords = sorted(list(set(keyword for article in keywords_complete for keyword in article)))
 
-    # write matrix to different file, because cpu go brrrrrrr
+    #write matrix to different file, because cpu go brrrrrrr
     with open('chord_matrix.py', 'w') as file:
         file.write(f'matrix = {transformed_matrix}')
 
-    #Chord(transformed_matrix, keywords).show()
+    print(matrix)
+    #Chord(transformed_matrix, keywords).to_html(filename='page1_testChord.html')
         
 
 
