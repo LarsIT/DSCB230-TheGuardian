@@ -1,26 +1,64 @@
-# Import the library
-from plotapi import Chord
+import pandas as pd
 
+def create_co_occurrence_matrix(articles:list):
+    '''
+    #### Creates a Co-Occurrence Matrix for Keywords
 
-# Basic cord diagram
-# TODO THIS WON'T WORK BECAUSE INPUT TYPE ISNT RECOGNIZE
-# Chord(data, names).to_html("../../static/interactiveCharts/chord-diagram-chord-library.html")
+    Important Note:
+        The relationships between the Keywords are bidirectional
 
-# TO UNDERSTAND THE MATRIX
-# each list is correspondent to one of the names
-# each element of each list is a counter of the frequency those 2 names (name of list and name of item, being correspondent to same index of names list)
-# thats why on the diagonal it is always a zero, since an article cant have the same keyword twice
-matrix = [
-    [0, 20, 6, 4, 7, 4], #ACTION
-    [5, 0, 5, 4, 6, 5], #ADVENTURE
-    [6, 5, 0, 4, 5, 5], #COMEDY
-    [4, 4, 60, 0, 5, 5], #DRAMA
-    [7, 6, 5, 5, 0, 4], #FANTASY
-    [4, 5, 5, 5, 4, 0], #THRILLER
+    ---
+    Args:
+        articles (list) : a list of lists, where each sublist contain all keywords of an individual article
+    ---
+    Returns: A Co-Occurrence
+    
+    '''
+    # Create a sorted list of distinct keywords
+    keywords = sorted(list(set(keyword for article in articles for keyword in article)))
+    
+    # Create an empty DataFrame to store the co-occurrence counts
+    co_occurrence_matrix = pd.DataFrame(0, index=keywords, columns=keywords)
+    
+    # Iterate over each article
+    for article in articles:
+
+        # Iterate over each keyword in the article
+        # Since Relationships are bidirectional we have to iterate over each article multiple times
+        # That way we assure that we update the Co-Occurrences from every Keyword's "Perspective"
+        for keyword_1 in article:
+            # Iterate over the remaining keywords in the article
+            for keyword_2 in article:
+                # Skip if both keywords are the same
+                # This creates zeros on the main diagonal
+                if keyword_1 == keyword_2:
+                    continue
+                
+                # Increment the co-occurrence count of the keywords
+                co_occurrence_matrix.loc[keyword_1, keyword_2] += 1
+    
+    return co_occurrence_matrix
+
+# Example list of lists representing articles' keywords
+articles = [
+    ['news', 'sports', 'football'],
+    ['sports', 'basketball', 'soccer'],
+    ['news', 'politics', 'economy'],
+    ['economy', 'technology', 'news']
 ]
 
+# Create the co-occurrence matrix using pandas DataFrame
+matrix = create_co_occurrence_matrix(articles)
 
-names = ["Action", "Adventure", "Comedy", "Drama", "Fantasy", "Thriller"]
+# Print the co-occurrence matrix
+matrix = matrix.values
+new_matrix = []
+transformed_row = []
 
-Chord(matrix, names).to_html()
+for row in matrix:
+    for item in row:
+        transformed_row.append(int(item))
+    new_matrix.append(list(transformed_row))
 
+print(new_matrix)
+print(type(new_matrix))

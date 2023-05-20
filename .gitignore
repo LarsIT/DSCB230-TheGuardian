@@ -6,6 +6,7 @@ __pycache__/
 # data files, remove .html from this once html files are complete
 *.json
 *.html 
+visualization_activate_key.py
 
 # C extensions
 *.so
