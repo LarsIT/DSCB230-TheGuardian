@@ -3,6 +3,19 @@ from plotapi import Chord
 import pandas as pd
 import json
 
+def count_items(arr=[]) -> dict:
+    '''counts items of datastructure and returns a sorted dictionary'''
+    count: dict = {}
+
+    # count items in array
+    for item in arr:
+        count[item] = 1 if item not in count else count[item] + 1
+
+    # sort count by value
+    count = dict(sorted(count.items(), key= lambda y: y[1],reverse=True))
+
+    return count
+
 def create_co_occurrence_matrix(articles: list, threshhold: dict):
     '''
     #### Creates a Co-Occurrence Matrix for Keywords
@@ -82,21 +95,18 @@ if __name__ == '__main__':
 
 
     keywords_complete = kw.get_keywords(path)
+    keyword_count = count_items(keywords_complete)
+    keyword_count = dict(sorted(keyword_count.items(), key= lambda y: y[1],reverse=True))
+    keyword_count = {key: keyword_count[key] for key in list(keyword_count)[:15]}
+    distinct_keywords = sorted(list(set(keyword for keyword in keyword_count))) 
 
-    matrix = create_co_occurrence_matrix(keywords_complete).values
+
+    matrix = create_co_occurrence_matrix(keywords_complete, keyword_count).values
     
     transformed_matrix = transform_co_occurrence(matrix)
-
-
-    keywords = sorted(list(set(keyword for article in keywords_complete for keyword in article)))
-
-    #write matrix to different file, because cpu go brrrrrrr
-    with open('chord_matrix.py', 'w') as file:
-        file.write(f'matrix = {transformed_matrix}')
-
-    print(matrix)
+    
     Chord(matrix= transformed_matrix,  
-      names= keywords,
+      names= distinct_keywords,
       arc_numbers= True, 
       colored_diagonals= False, 
       padding= 0.02, 

@@ -55,10 +55,10 @@ if __name__ == '__main__':
 
     # bar plot for keyword frequency across 
     fig = px.bar(y= frequency, x= keywords, title= 'Occurences of Keywords')
-    fig.show()
+    fig.write_html('plots_and_diagrams/General Occurrences of Keywords.html')
 
     # pie plot showing the same data
     fig = px.pie(values=frequency, names=keywords, title= 'Relative Frequency of Keywords')
-    fig.show()
+    fig.write_html('plots_and_diagrams/General Relative Frequency of Keywords.html')
 
     

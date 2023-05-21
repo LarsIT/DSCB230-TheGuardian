@@ -21,9 +21,9 @@ def count_items(arr=[]) -> dict:
 
 def create_chordDiagram(data_path: str = 'data/gcp',
                         save_location: str = 'plots_and_diagrams', 
-                        location: str = 'UK', 
+                        location: str = 'all', 
                         top_number_keywords: int = 15
-                        ):
+                        ) -> None:
     '''
     #### creates a Chord Diagram and saves it to an html-file
 
@@ -35,13 +35,15 @@ def create_chordDiagram(data_path: str = 'data/gcp',
 
         - location (str) : filters articles based on production office \n
             Options: \n
+                all : standard value for location, doesn't filter articles, it takes all \n
                 UK : for UK production office \n
                 US : for US production office \n
                 AUS : for AUS production office \n
+                
 
         - top_number_keywords (int) : Chord Diagram is limited to a maximum of 15 NODES/ARCS \n
                                     setting this value moves this 15 ARCS sized interval around, \n
-                                    this parameter represents the high end of the inverval
+                                    this parameter represents the high end of the inverval \n
 
     ---
     returns:
@@ -49,8 +51,6 @@ def create_chordDiagram(data_path: str = 'data/gcp',
         it saves a chord diagram in the ```save location``` set above
     '''
 
-    if location not in ('UK','US','AUS'):
-        return 'invalid location'
     
     # create lists with article objects
     # 3 different lists depending on production office 
@@ -59,7 +59,7 @@ def create_chordDiagram(data_path: str = 'data/gcp',
     keyword_count: dict = {}
     article_count: int = 0
     distinct_keywords: list
-
+        
     
     for item in os.listdir(data_path):
         with open(f'data/gcp/{item}') as file:
@@ -77,7 +77,8 @@ def create_chordDiagram(data_path: str = 'data/gcp',
             # increment location based article count
             # extract keywords of articles and group them based on location
 
-            if article['fields']['productionOffice'] == location:
+            # if location is set filter articles based on location, 
+            if article['fields']['productionOffice'] == location or location == 'all':
                 articles.append(article)
 
                 article_count += 1
@@ -126,6 +127,7 @@ def create_chordDiagram(data_path: str = 'data/gcp',
 
 
 if __name__ == '__main__':
-    #create_chordDiagram(location='AUS')  
+    create_chordDiagram(location='AUS')  
     #create_chordDiagram(location='UK') 
-    create_chordDiagram(location='US') 
+    #create_chordDiagram(location='US')
+    create_chordDiagram()

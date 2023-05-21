@@ -7,6 +7,7 @@ import os
 import json
 
 # functions
+save_location = 'plots_and_diagrams/'
 
 def count_items(arr=[]) -> dict:
     '''counts items of datastructure and returns a sorted dictionary'''
@@ -24,19 +25,22 @@ def count_items(arr=[]) -> dict:
 def create_barPlot_from_dict(count:dict, production_office: str = 'unkown origin') -> None:
     '''creates a bar plot from a count dictionary'''
     terms, frequency = [x for x in count], [y for x,y in count.items()]
+    title = f'Occurences of Keywords in {production_office}'
 
     # bar plot
-    fig = px.bar(y= frequency, x= terms, title= f'Occurences of Keywords in {production_office}')
-    fig.show()
+    fig = px.bar(y= frequency, x= terms, title= title)
+    fig.write_html(save_location + title + '.html')
+
 
 def create_piePlot_from_dict(count:dict, production_office: str = 'unkown origin')-> None:
     '''creates a pie plot from a count dictionary'''
 
     terms, frequency = [x for x in count], [y for x,y in count.items()]
+    title = f'Relative Frequency of Keywords in {production_office}'
 
     # pie plot 
-    fig = px.pie(values=frequency, names=terms, title= f'Relative Frequency of Keywords in {production_office}')
-    fig.show()
+    fig = px.pie(values=frequency, names=terms, title= title)
+    fig.write_html(save_location + title + '.html')
 
 
 
@@ -163,7 +167,8 @@ if __name__ == '__main__':
 
 
 # make a pie plot showing the distribution of articles on the produciton offices
-fig = px.pie(values= [uk_article_count, us_article_count, aus_article_count], names= ['UK', 'US', 'AUS'], title= 'Distribution of Articles on Production Offices')
-fig.show()
+title = 'Distribution of Articles across Production Offices'
+fig = px.pie(values= [uk_article_count, us_article_count, aus_article_count], names= ['UK', 'US', 'AUS'], title= title)
+fig.write_html(save_location + title + '.html')
 
 
