@@ -2,7 +2,7 @@
 
 Github Repository zur Hausarbeit für DSCB230 Hochschule Karlsruhe bei Matthias Mruzek-Vering
 
-Ziel der Hausarbeit ist eine Datenanalyse zu einem selbstgeähltem Buisnesscase
+Ziel der Hausarbeit ist eine Datenanalyse zu einem selbstgeähltem Businesscase
 
 Der ausgewählte Buisnesscase ist eine Kategorienanalyse von der Zeitung TheGuardian.
 Hier wollen wir die Zeitschrift ein wenig durchleuchten mit Blick auf ihre generelle Veröffentlichungsgewöhnlichkeiten und wir wollen herausfinden ob wir die Kriterien für einen erfolgreichen TheGuradian.com Artikel aufdecken können. Zum Schluss möchten wir anhand von den entdeckten Kriterien einen Artikel schreiben lassen und mit ähnlichen Artikel abgleichen.
