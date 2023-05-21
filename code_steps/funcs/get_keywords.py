@@ -35,7 +35,7 @@ def get_keywords(dir_path):
 
 def get_keywords_in_loop(articles: list):
 
-    keywords_complete: list
+    keywords_complete: list = []
 
     for index,item in enumerate(articles):
             

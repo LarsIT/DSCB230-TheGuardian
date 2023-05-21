@@ -108,8 +108,7 @@ if __name__ == '__main__':
                         if tag['type'] == 'keyword' and (temp == False or tag != temp):
                             aus_keywords.append(tag['webTitle'])
                             temp = tag['webTitle']
-                            if temp == 'Queensland':
-                                print(article['webTitle'])   
+                            
                                 
                     # increment article count
                     aus_article_count += 1
@@ -135,10 +134,10 @@ if __name__ == '__main__':
 
     # create keyword counts
     # create plots
-    '''
+    
     # UK
     uk_count = count_items(uk_keywords)
-    # remove all keywords with count less than 200
+    # remove all keywords with count less than 
     uk_count = {key: val for key, val in uk_count.items() if val > int(uk_article_count*0.02)}
 
     create_barPlot_from_dict(uk_count, 'UK')
@@ -166,5 +165,5 @@ if __name__ == '__main__':
 # make a pie plot showing the distribution of articles on the produciton offices
 fig = px.pie(values= [uk_article_count, us_article_count, aus_article_count], names= ['UK', 'US', 'AUS'], title= 'Distribution of Articles on Production Offices')
 fig.show()
-'''
+
 

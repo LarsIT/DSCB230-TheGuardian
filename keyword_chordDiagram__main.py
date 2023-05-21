@@ -3,7 +3,7 @@ from plotapi import Chord
 import pandas as pd
 import json
 
-def create_co_occurrence_matrix(articles:list):
+def create_co_occurrence_matrix(articles: list, threshhold: dict):
     '''
     #### Creates a Co-Occurrence Matrix for Keywords
 
@@ -13,18 +13,27 @@ def create_co_occurrence_matrix(articles:list):
     ---
     Args:
         articles (list) : a list of lists, where each sublist contain all keywords of an individual article
+
+        threshhold (dict) : a count dictionary, that counts occurrences of keywords to a specific threshhold
+
+             with threshhold a count threshhold is meant, e.g. it doesn't contain keywords with a count less than 200(or a different value) 
+    
     ---
+
     Returns: A Co-Occurrence
     
     '''
-    # create a threshhold for relevant keywords, since RAM go brrrrr
-    with open('kw_count.json','r') as infile:
-        threshhold = json.load(infile)
-    
+    if not threshhold:
+        # create a threshhold for relevant keywords, since RAM go brrrrr
+        with open('kw_count.json','r') as infile:
+            threshhold = json.load(infile)
+        
 
-    # Create a sorted list of distinct keywords
-    keywords = sorted(list(set(keyword for article in articles for keyword in article if keyword in threshhold)))
-    
+        # Create a sorted list of distinct keywords
+        keywords = sorted(list(set(keyword for article in articles for keyword in article if keyword in threshhold)))
+    else:
+        keywords = sorted(list(set(keyword for article in articles for keyword in article if keyword in threshhold)))
+
     # Create an empty DataFrame to store the co-occurrence counts
     co_occurrence_matrix = pd.DataFrame(0, index=keywords, columns=keywords)
     
@@ -48,6 +57,22 @@ def create_co_occurrence_matrix(articles:list):
     
     return co_occurrence_matrix
 
+def transform_co_occurrence(matrix):
+    '''transform dataframe matrix into list of lists'''
+    # create new matrix to change Dtypes of all sublists and items of sublists
+    transformed_matrix = []
+
+    for row in matrix:
+        transformed_row: list = []
+
+        for item in row:
+            transformed_row.append(int(item))
+            
+        transformed_matrix.append(list(transformed_row))
+        
+    return transformed_matrix
+    
+
 
 if __name__ == '__main__':
     
@@ -59,25 +84,27 @@ if __name__ == '__main__':
     keywords_complete = kw.get_keywords(path)
 
     matrix = create_co_occurrence_matrix(keywords_complete).values
-    transformed_matrix: list = []
-    transformed_row: list = []
+    
+    transformed_matrix = transform_co_occurrence(matrix)
 
-    # create new matrix to change Dtypes of all sublists and items of sublists
-    for row in matrix:
-        transformed_row = []
 
-        for item in row:
-            transformed_row.append(int(item))
-        transformed_matrix.append(list(transformed_row))
-
-    # keywords = sorted(list(set(keyword for article in keywords_complete for keyword in article)))
+    keywords = sorted(list(set(keyword for article in keywords_complete for keyword in article)))
 
     #write matrix to different file, because cpu go brrrrrrr
     with open('chord_matrix.py', 'w') as file:
         file.write(f'matrix = {transformed_matrix}')
 
     print(matrix)
-    #Chord(transformed_matrix, keywords).to_html(filename='page1_testChord.html')
+    Chord(matrix= transformed_matrix,  
+      names= keywords,
+      arc_numbers= True, 
+      colored_diagonals= False, 
+      padding= 0.02, 
+      width= 1000,
+      title= 'Co-Occurrence of Keywords from TheGuardian.com articles of April',
+      font_size="12px",
+      font_size_large="30px"
+      ).to_html(filename= 'test_page1Chord.html')
         
 
 
