@@ -68,52 +68,10 @@ writer_wrote_topics = dict(sorted(writer_wrote_topics.items(), key= lambda y: le
 # get top 10 authors based on articles written
 #print(dict(writer_article_count[:10]))
 # make barplot and save it to html
+
 top_10_writers = dict(writer_article_count[:10])
 x,y = [x for x,y in top_10_writers.items()], [y for x,y in top_10_writers.items()]
 plot_title = 'The Top 10 Authors based on number of articles written'
 fig = px.bar(x=x, y=y, title= plot_title)
 
 fig.write_html(f'plots_and_diagrams/{plot_title}.html')
-
-# make barfight plot
-# barfight need a specific input 
-"""
-samples_from_dict(input: dict, ticks: int = 1):
-    '''
-    #### converts a count dictionary for Barfight plot from plotapi
-
-    ---
-    params:
-        input (dict) : count dictionary as input data
-
-        ticks (int) : how long animation of barfight is, not literal ticks
-    
-    ---
-    returns:
-        sample (list[dicts]) : list of dictionaries that describe how the barfight progresses
-    '''
-    
-    sample: list = []
-    for name in input:
-        count = input[name]
-        order = ticks
-
-        for time in range(1,ticks+1):
-            sample.append(
-                {
-                    'order': order,
-                    'name': name,
-                    'value': count/time
-                }
-            )
-            order -= 1
-
-    
-    return sample
-
-s1 = make_samples_from_dict(top_10_writers,5)
-
-BarFight(samples=s1,show_restart=False).to_html('test_barfight.html')
-
-
-"""
