@@ -20,7 +20,7 @@ bucket = storage_client.bucket(bucket_name)
 for blob in storage_client.list_blobs(bucket_or_name=bucket_name):
     blob_name = blob.name
     blob = bucket.blob(blob_name=blob_name)
-    blob.download_to_filename(f'data/gcp/{blob_name}')
+    blob.download_to_filename(f'data/gcp_april_may/{blob_name}')
     
 
 print('Download complete!')

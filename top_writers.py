@@ -1,6 +1,5 @@
 import os
 import json
-from plotapi import BarFight
 import plotly.express as px
 
 # what is done here

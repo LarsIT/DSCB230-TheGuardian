@@ -11,9 +11,9 @@ authors: list = []
 timestamps: list = []
 author_date_publish :list = []
 
-for file in os.listdir('data/gcp'):
+for file in os.listdir('data/gcp_april_may'):
 
-    with open(f'data/gcp/{file}') as infile:
+    with open(f'data/gcp_april_may/{file}') as infile:
             data = json.load(infile)
 
     articles = data['response']['results']
@@ -55,8 +55,8 @@ for entry in author_date_publish:
 matrix = matrix.applymap(lambda x: 1 if x != 0 else x)
 
 color_scale = [
-    [0, 'rgb(255,255,255)'],
-    [1, 'rgb(0, 0, 255)']
+    [0, 'rgb(255,255,255)'], # white
+    [1, 'rgb(0, 0, 255)'] # blue
 ]
 
 
@@ -70,10 +70,15 @@ fig = px.imshow(
     aspect='equal'
     )
 
-fig.layout.height = 10000
-fig.layout.width = 700
+# show all authors on y axis
+fig.update_layout(
+     yaxis_nticks=len(authors)
+)
+
+fig.layout.height = 30000
+fig.layout.width = 1000
 fig.write_html(
-     'plots_and_diagrams/Days where Authors published.html'
+     'plots_and_diagrams/Days where Authors published AprilToMay.html'
 )
         
 
