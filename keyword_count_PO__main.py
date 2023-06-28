@@ -49,7 +49,7 @@ if __name__ == '__main__':
     
     
     # get all keywords of test data set and order them
-    path: str = 'data/gcp'
+    path: str = 'data'
 
     uk_keywords: list =  []
     us_keywords: list = []
@@ -64,8 +64,8 @@ if __name__ == '__main__':
     aus_article_count: int = 0
 
     # load data
-    for item in os.listdir('data/gcp'):
-        with open(f'data/gcp/{item}') as file:
+    for item in os.listdir(path):
+        with open(f'{path}\{item}') as file:
             data = json.load(file)
 
         articles: list = data['response']['results']

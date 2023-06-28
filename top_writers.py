@@ -23,10 +23,10 @@ def count_items(arr=[]) -> dict:
 
 writers_keywords: list = []
 
-for item in os.listdir('data/gcp'):
+for item in os.listdir('data'):
     
 
-    with open(f'data/gcp/{item}') as infile:
+    with open(f'data\{item}') as infile:
         data = json.load(infile)
 
     articles = data['response']['results']

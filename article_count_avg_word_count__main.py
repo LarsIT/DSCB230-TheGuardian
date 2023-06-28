@@ -15,7 +15,7 @@ if __name__ == '__main__':
     #plot the article count per day and average word count per day, side by side
 
     # path to data directory
-    dir_path = 'data/gcp'
+    dir_path = 'data'
 
     keywords_complete: list = []
     directory : list = []
@@ -87,7 +87,8 @@ if __name__ == '__main__':
     fig.add_trace(go.Scatter(x=date, y=frequency, name='Average Word Count per day'), row=2, col=1)
 
     # Update layout
-    fig.update_layout(title='Article per day and Average Word Count per day', height=1000)
+    title = 'Article per day and Average Word Count per day'
+    fig.update_layout(title= title, height=1000)
 
     # Show figure
-    fig.show()
+    fig.write_html(f'plots_and_diagrams\{title}.html')

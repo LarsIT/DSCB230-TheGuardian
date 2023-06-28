@@ -55,9 +55,9 @@ def convert_to_dayname(date:str) -> str:
 
 matrix = pd.DataFrame(0, index=weekdays, columns=timespan)
 
-for item in os.listdir('data/gcp'):
+for item in os.listdir('data'):
         
-    with open(f'data/gcp/{item}') as infile:
+    with open(f'data\{item}') as infile:
         data = json.load(infile)
 
     articles = data['response']['results']
@@ -65,9 +65,9 @@ for item in os.listdir('data/gcp'):
 
     for article in articles:
         # get publication hour 
-        publication_hour = int(article['fields']['firstPublicationDate'][11:13])
+        publication_hour = int(article['webPublicationDate'][11:13])
         # get punlication date
-        publication_date = article['fields']['firstPublicationDate'][0:10]
+        publication_date = article['webPublicationDate'][0:10]
         # convert date to day name
         publication_day = convert_to_dayname(publication_date)
         

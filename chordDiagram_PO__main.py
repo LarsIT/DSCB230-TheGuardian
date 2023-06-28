@@ -19,7 +19,7 @@ def count_items(arr=[]) -> dict:
     return count
 
 
-def create_chordDiagram(data_path: str = 'data/gcp',
+def create_chordDiagram(data_path: str = 'data',
                         save_location: str = 'plots_and_diagrams', 
                         location: str = 'all', 
                         top_number_keywords: int = 15
@@ -62,7 +62,7 @@ def create_chordDiagram(data_path: str = 'data/gcp',
         
     
     for item in os.listdir(data_path):
-        with open(f'data/gcp/{item}') as file:
+        with open(f'data\{item}') as file:
             data = json.load(file)
 
         articles_of_current_file: list = data['response']['results']
@@ -127,7 +127,7 @@ def create_chordDiagram(data_path: str = 'data/gcp',
 
 
 if __name__ == '__main__':
-    create_chordDiagram(location='AUS')  
-    #create_chordDiagram(location='UK') 
-    #create_chordDiagram(location='US')
+    #create_chordDiagram(location='AUS')  
+    create_chordDiagram(location='UK') 
+    create_chordDiagram(location='US')
     create_chordDiagram()

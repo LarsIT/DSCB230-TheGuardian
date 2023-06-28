@@ -12,7 +12,7 @@ if __name__ == '__main__':
     
     
     # get all keywords of test data set and order them
-    path = 'data/gcp'
+    path = 'data'
     keywords = kw.get_keywords(path)
 
     # avg article per day
@@ -21,8 +21,8 @@ if __name__ == '__main__':
     article_count: int = 0
         
     # how many articles are we looking at?
-    for item in os.listdir('data/gcp'):
-        with open(f'data/gcp/{item}') as file:
+    for item in os.listdir(path):
+        with open(f'data/{item}') as file:
             data = json.load(file)
         
         for article in data['response']['results']:

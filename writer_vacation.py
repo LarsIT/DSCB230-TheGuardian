@@ -11,9 +11,9 @@ authors: list = []
 timestamps: list = []
 author_date_publish :list = []
 
-for file in os.listdir('data/gcp_april_may'):
+for file in os.listdir('data'):
 
-    with open(f'data/gcp_april_may/{file}') as infile:
+    with open(f'data\{file}') as infile:
             data = json.load(infile)
 
     articles = data['response']['results']
@@ -36,7 +36,14 @@ for file in os.listdir('data/gcp_april_may'):
 
 # remove redundances in authors and timestamps
 timestamps = list(set(timestamps))
-authors = sorted(list(set(authors)))
+# change list in order to search for dependencies between Authors
+authors = sorted(['Paul Karp', 'Martin Pengelly', 'Editorial', 'Peter Walker', 'Guardian Sport', 'Peter Hannam', 'Guardian community team', 'Martin Belam', 'Aubrey Allegretti', 'Alex Lawson'])
+author_date_publish_reduced = []
+
+for i in author_date_publish:
+    if i[0] in authors:
+         author_date_publish_reduced.append(i)
+     
 
 # order timestamps
 timestamps = [dt.strptime(ts, "%Y-%m-%d") for ts in timestamps]
@@ -46,7 +53,7 @@ timestamps = [dt.strftime(ts, "%Y-%m-%d") for ts in timestamps]
 # create matrix
 matrix = pd.DataFrame(0, index=authors, columns=timestamps)
 
-for entry in author_date_publish:
+for entry in author_date_publish_reduced:
     matrix.loc[entry[0], entry[1]] += 1
 
 #matrix = transform_co_occurrence(matrix.values)
@@ -75,10 +82,10 @@ fig.update_layout(
      yaxis_nticks=len(authors)
 )
 
-fig.layout.height = 30000
+fig.layout.height = 1000
 fig.layout.width = 1000
 fig.write_html(
-     'plots_and_diagrams/Days where Authors published AprilToMay.html'
+     'plots_and_diagrams/Days where TOP10 authors published.html'
 )
         
 
