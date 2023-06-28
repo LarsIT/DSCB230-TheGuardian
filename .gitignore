@@ -4,8 +4,7 @@ __pycache__/
 *$py.class
 
 # data files, remove .html from this once html files are complete
-*.json
-*.html 
+*.json 
 visualization_activate_key.py
 
 # C extensions
